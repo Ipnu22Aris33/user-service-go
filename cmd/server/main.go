@@ -7,6 +7,7 @@ import (
 
 	"github.com/Ipnu22Aris33/user-service-go/internal/config"
 	"github.com/gin-gonic/gin"
+	"github.com/Ipnu22Aris33/user-service-go/internal/container"
 )
 
 func main() {
@@ -18,6 +19,8 @@ func main() {
 
 	r.SetTrustedProxies(nil)
 
+	c := container.NewContainer()
+	r.POST("/user", c.UserHandler.CreateUser)
 	r.GET("/health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"status": "ok",

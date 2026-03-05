@@ -1,0 +1,66 @@
+version: '3'
+
+vars:
+  APP_NAME: user-service
+  CMD_PATH: ./cmd/server
+  BUILD_PATH: ./bin
+  MAIN_FILE: main.go
+
+tasks:
+
+  dev:
+    desc: Run development server with hot reload
+    cmds:
+      - air
+
+  run:
+    desc: Run server normally
+    cmds:
+      - go run {{.CMD_PATH}}
+
+  build:
+    desc: Build binary
+    cmds:
+      - mkdir -p {{.BUILD_PATH}}
+      - go build -o {{.BUILD_PATH}}/{{.APP_NAME}} {{.CMD_PATH}}
+
+  start:
+    desc: Run compiled binary
+    cmds:
+      - ./bin/{{.APP_NAME}}
+
+  tidy:
+    desc: Clean dependencies
+    cmds:
+      - go mod tidy
+
+  test:
+    desc: Run tests
+    cmds:
+      - go test ./...
+
+  fmt:
+    desc: Format code
+    cmds:
+      - go fmt ./...
+
+  vet:
+    desc: Run go vet
+    cmds:
+      - go vet ./...
+
+  clean:
+    desc: Clean build files
+    cmds:
+      - rm -rf ./bin
+      - rm -rf ./tmp
+
+  install-tools:
+    desc: Install dev tools
+    cmds:
+      - go install github.com/air-verse/air@latest
+
+  deps:
+    desc: Download dependencies
+    cmds:
+      - go mod download
