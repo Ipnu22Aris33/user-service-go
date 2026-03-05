@@ -1,0 +1,66 @@
+# ========================
+# Go build files
+# ========================
+
+bin/
+dist/
+build/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# ========================
+# Air (hot reload)
+# ========================
+
+tmp/
+air.log
+
+# ========================
+# Environment files
+# ========================
+
+.env
+.env.local
+.env.development
+.env.production
+
+# ========================
+# Logs
+# ========================
+
+*.log
+logs/
+
+# ========================
+# Dependency directories
+# ========================
+
+vendor/
+
+# ========================
+# OS files
+# ========================
+
+.DS_Store
+Thumbs.db
+
+# ========================
+# IDE / Editor
+# ========================
+
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ========================
+# Test output
+# ========================
+
+coverage.out
+coverage.html
