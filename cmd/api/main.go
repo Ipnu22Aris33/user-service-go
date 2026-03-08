@@ -1,11 +1,11 @@
 package main
 
 import (
-	"log"
 	"fmt"
-	"net/http"
 	"github.com/Ipnu22Aris33/user-service-go/internal/config"
 	"github.com/Ipnu22Aris33/user-service-go/internal/server"
+	"log"
+	"net/http"
 )
 
 func main() {
@@ -20,7 +20,7 @@ func main() {
 
 	fmt.Println("Server running on port", cfg.App.Port)
 
-	if err := http.ListenAndServe(":" + cfg.App.Port, router); err != nil {
+	if err := http.ListenAndServe(":"+cfg.App.Port, router); err != nil {
 		log.Fatal(err)
 	}
 }

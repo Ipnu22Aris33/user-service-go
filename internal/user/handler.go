@@ -19,7 +19,7 @@ func NewUserHandler(u *UserUsecase) *UserHandler {
 func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	var req CreateUserRequest
 
-	if err := httpx.DecodeJSON(r, &req); err != nil {
+	if err := httpx.DecodeAndValidate(r, &req); err != nil {
 		httpx.Error(w, http.StatusBadRequest, err)
 		return
 	}
@@ -30,7 +30,7 @@ func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	user, err := h.usecase.CreateUser(user)
-	
+
 	if err != nil {
 		httpx.Error(w, http.StatusInternalServerError, err)
 		return
