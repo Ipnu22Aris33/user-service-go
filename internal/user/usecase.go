@@ -21,3 +21,13 @@ func (u *UserUsecase) CreateUser(user *User) (*User, error) {
 
 	return user, nil
 }
+
+func (u *UserUsecase) GetUserByID(id string) (*User, error) {
+	user, err := u.repo.GetUserByID(id)
+
+	if err != nil {
+		return nil, err
+	}
+	
+	return user, nil
+}

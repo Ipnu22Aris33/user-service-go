@@ -1,9 +1,9 @@
 package user
 
 import (
-	"net/http"
-
 	"github.com/Ipnu22Aris33/user-service-go/internal/httpx"
+	"github.com/go-chi/chi/v5"
+	"net/http"
 )
 
 type UserHandler struct {
@@ -37,4 +37,16 @@ func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	httpx.JSON(w, http.StatusCreated, user)
+}
+
+func (h *UserHandler) GetUserByID(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+
+	user, err := h.usecase.GetUserByID(id)
+	if err != nil {
+		httpx.Error(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	httpx.JSON(w, http.StatusOK, user)
 }
