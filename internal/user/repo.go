@@ -1,23 +1,22 @@
-package repository
+package user
 
 import (
 	"errors"
 	"sync"
-	"github.com/Ipnu22Aris33/user-service-go/internal/domain"
 )
 
 type InMemoryUserRepository struct {
-	data map[string]*domain.User
+	data map[string]*User
 	mu   sync.RWMutex
 }
 
 func NewInMemoryUserRepository() *InMemoryUserRepository {
 	return &InMemoryUserRepository{
-		data: make(map[string]*domain.User),
+		data: make(map[string]*User),
 	}
 }
 
-func (r *InMemoryUserRepository) GetUserByID(id string) (*domain.User, error) {
+func (r *InMemoryUserRepository) GetUserByID(id string) (*User, error) {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
 
@@ -29,7 +28,7 @@ func (r *InMemoryUserRepository) GetUserByID(id string) (*domain.User, error) {
 	return user, nil
 }
 
-func (r *InMemoryUserRepository) CreateUser(user *domain.User) error {
+func (r *InMemoryUserRepository) CreateUser(user *User) error {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
