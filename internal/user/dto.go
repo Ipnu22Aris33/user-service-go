@@ -1,0 +1,6 @@
+package user
+
+type CreateUserRequest struct {
+	Email string `json:"email"`
+	Name  string `json:"name"`
+}

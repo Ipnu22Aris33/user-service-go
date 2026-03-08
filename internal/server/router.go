@@ -1,17 +1,22 @@
 package server
 
-import "net/http"
+import (
+	"github.com/go-chi/chi/v5"
+	"net/http"
+)
 
-func SetupRouter(c *Container) *http.ServeMux {
-	mux := http.NewServeMux()
+func SetupRouter(c *Container) http.Handler {
+	r := chi.NewRouter()
 
-	mux.HandleFunc("POST /user", c.UserHandler.CreateUser)
-
-	mux.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request) {
+	r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
 		WriteJSON(w, http.StatusOK, map[string]string{
 			"status": "ok",
 		})
 	})
 
-	return mux
+	r.Route("/users", func(r chi.Router) {
+		r.Post("/", c.UserHandler.CreateUser)
+	})
+
+	return r
 }

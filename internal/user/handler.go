@@ -1,8 +1,9 @@
 package user
 
 import (
-	"encoding/json"
 	"net/http"
+
+	"github.com/Ipnu22Aris33/user-service-go/internal/httpx"
 )
 
 type UserHandler struct {
@@ -16,22 +17,24 @@ func NewUserHandler(u *UserUsecase) *UserHandler {
 }
 
 func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
-	var user User
+	var req CreateUserRequest
 
-	err := json.NewDecoder(r.Body).Decode(&user)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+	if err := httpx.DecodeJSON(r, &req); err != nil {
+		httpx.Error(w, http.StatusBadRequest, err)
 		return
 	}
 
-	err = h.usecase.CreateUser(&user)
+	user := &User{
+		Email: req.Email,
+		Name:  req.Name,
+	}
+
+	user, err := h.usecase.CreateUser(user)
+	
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		httpx.Error(w, http.StatusInternalServerError, err)
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-
-	json.NewEncoder(w).Encode(user)
+	httpx.JSON(w, http.StatusCreated, user)
 }

@@ -1,5 +1,7 @@
 package user
 
+import "github.com/google/uuid"
+
 type UserUsecase struct {
 	repo UserRepository
 }
@@ -10,6 +12,12 @@ func NewUserUsecase(r UserRepository) *UserUsecase {
 	}
 }
 
-func (u *UserUsecase) CreateUser(user *User) error {
-	return u.repo.CreateUser(user)
+func (u *UserUsecase) CreateUser(user *User) (*User, error) {
+	user.ID = uuid.NewString()
+
+	if err := u.repo.CreateUser(user); err != nil {
+		return nil, err
+	}
+
+	return user, nil
 }
